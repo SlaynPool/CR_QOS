@@ -1,0 +1,4 @@
+PATH=$PATH:/sbin/
+modprobe sch_cbq
+modprobe sch_sfq
+modprobe sch_htb

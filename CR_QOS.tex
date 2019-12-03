@@ -4,8 +4,9 @@
 \usepackage[french]{babel}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{hyperref}
+\usepackage{graphicx}
 %opening
-\title{Le Protocole MQTT}
+\title{QoS}
 \author{Nicolas Vadkerti}
 \usepackage{listings} % Required for inserting code snippets
 \usepackage[usenames,dvipsnames]{color} % Required for specifying custom colors and referring to colors by name
@@ -49,10 +50,31 @@ tabsize=2
 \maketitle
 
 
-\url{https://github.com/SlaynPool/CR_MQTT/}
+\url{https://github.com/SlaynPool/CR_QOS/}
 
+\section{Près-Requis}
+Nous voulons faire de la QOS, il faut donc activer les modules noyaux qui permette de le faire:
 
+\insertcode{commande/1.txt}{Activation de module noyaux}
 
+Le paquet Iproute2 etait deja installé.
+Pour l'installation de mgen:
+
+\insertcode{commande/2.txt}{Installation de MGEN}
+
+Bon en faite, depuis l'ecriture du sujet, MGEN à etait packagé dans les depots apt.
+
+\section{Mise en Place d'un Arbre de Contrôle}
+Pour cela nous allons utiliser le script fourni:
+\insertcode{commande/3.txt}{Le script TC}
+
+Pour le test des Liens, nous avons, avec buddy obtenue ce graphique :
+  \begin{figure}[h!]
+\centering
+\includegraphics[scale=0.50]{screen/gnuplot.jpg}
+\caption{QoS 3}
+\label{fig:qos}
+\end{figure}
  
  
  

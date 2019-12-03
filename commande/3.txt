@@ -1,0 +1,30 @@
+root@DebianJetable:~$cat iptable.sh 
+#!/bin/sh
+
+tc qdisc del dev enp0s3 root
+tc qdisc add dev enp0s3 root handle 10: htb
+tc class add dev enp0s3 parent 10: classid 10:1 htb rate 1048576
+tc class add dev enp0s3 parent 10:1 classid 10:10 htb rate 10240 ceil 10240
+tc class add dev enp0s3 parent 10:1 classid 10:20 htb rate 204800 ceil 1048576
+tc class add dev enp0s3 parent 10:1 classid 10:30 htb rate 716800 ceil 1048576
+
+# Activation du partage equitable pour chaque file
+tc qdisc add dev enp0s3 parent 10:10 handle 40: sfq
+tc qdisc add dev enp0s3 parent 10:20 handle 50: sfq
+tc qdisc add dev enp0s3 parent 10:30 handle 60: sfq
+
+#Marquage des Flux
+iptables -t mangle -F
+iptables -t mangle -A OUTPUT -o enp0s3 -p udp --dport 5000 -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -o enp0s3 -p udp --dport 5001 -j MARK --set-mark 2
+iptables -t mangle -A OUTPUT -o enp0s3 -p udp --dport 5002 -j MARK --set-mark 3
+
+
+tc filter add dev enp0s3 parent 10: protocol ip handle 1 fw flowid 10:10
+tc filter add dev enp0s3 parent 10: protocol ip handle 2 fw flowid 10:20
+tc filter add dev enp0s3 parent 10: protocol ip handle 3 fw flowid 10:30
+tc -s -d class show dev enp0s3 
+
+# Affichage des operations via iptables
+iptables -t mangle -L
+

@@ -1,0 +1,12 @@
+# Installation des outils pour mgen
+apt install gcc gpp g++ libcap0.8-dev 
+
+#script d'install de mgen (soure : Document Officiel)
+
+#!/bin/bash
+git clone https://github.com/USNavalResearchLaboratory/mgen.git
+cd mgen
+git clone https://github.com/USNavalResearchLaboratory/protolib.git
+cd makefiles
+make -f Makefile.linux
+
